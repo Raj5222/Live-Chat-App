@@ -1,0 +1,50 @@
+{
+   "name": "typeormprj",
+   "version": "0.0.1",
+   "description": "Learning Purpuse Coding.",
+   "type": "commonjs",
+   "devDependencies": {
+      "@types/bcrypt": "^5.0.2",
+      "@types/crypto-js": "^4.2.2",
+      "@types/jsonwebtoken": "^9.0.7",
+      "@types/node": "^16.18.116",
+      "@types/nodemailer": "^6.4.16",
+      "@types/puppeteer": "^5.4.7",
+      "ts-node": "10.9.1",
+      "typeorm": "^0.3.20",
+      "typescript": "^5.6.2"
+   },
+   "dependencies": {
+      "@types/express": "^5.0.0",
+      "@types/express-session": "^1.18.0",
+      "cors": "^2.8.5",
+      "crypto-js": "^4.2.0",
+      "dotenv": "^16.4.5",
+      "express": "^4.21.0",
+      "express-handlebars": "^8.0.1",
+      "express-session": "^1.18.0",
+      "firebase": "^10.14.1",
+      "firebase-admin": "^12.6.0",
+      "firebase-functions": "^6.0.1",
+      "google-auth-library": "^9.14.1",
+      "googleapis": "^144.0.0",
+      "handlebars": "^4.7.8",
+      "ioredis": "^5.4.1",
+      "jsonwebtoken": "^9.0.2",
+      "mailersend": "^2.3.0",
+      "mongodb": "^5.9.2",
+      "node-xlsx": "^0.24.0",
+      "nodemailer-express-handlebars": "^7.0.0",
+      "pg": "^8.4.0",
+      "puppeteer": "^23.6.1",
+      "redis": "^4.7.0",
+      "reflect-metadata": "^0.1.13",
+      "socket.io": "^4.8.0",
+      "winston": "^3.15.0"
+   },
+   "scripts": {
+      "start": "ts-node src/server.ts",
+      "build-start": "node build/server.js",
+      "build": "tsc"
+   }
+}

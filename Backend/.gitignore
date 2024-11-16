@@ -1,0 +1,9 @@
+.idea/
+.vscode/
+.env
+FCM_Creadential.json
+node_modules/
+build/
+tmp/
+temp/
+.vercel
