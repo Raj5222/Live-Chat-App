@@ -1,0 +1,31 @@
+{(payload.message && payload.username) &&(<button class
+                    onClick={() => copyToClipboard(payload.message, index)}
+                    style={{
+                      display: "inline-block",
+                      padding: "5px 10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Copy
+                  </button>)}
+
+
+
+
+const [copySuccess, setCopySuccess] = useState({});
+
+    const copyToClipboard = (message, index) => {
+      if (message) {
+        navigator.clipboard
+          .writeText(message)
+          .then(() => {
+            setCopySuccess((prev) => ({ ...prev, [index]: "Message copied!" }));
+            setTimeout(() => {
+              setCopySuccess((prev) => ({ ...prev, [index]: "" }));
+            }, 2000); // Clear message after 2 seconds
+          })
+          .catch(() => {
+            setCopySuccess((prev) => ({ ...prev, [index]: "Failed to copy!" }));
+          });
+      }
+    };

@@ -52,7 +52,7 @@ const Modal = ({ isOpen, onClose, userlist, kickuser, admin, current_sid }) => {
 
                 {/* Only the admin can kick users */}
                 {current_sid === admin.sid && user.sid !== current_sid && (
-                  <span className="kick" onClick={() => kickuser(user.sid)}>
+                  <span className="kick" onClick={() =>{if(window.confirm(`Do You Really Want To Kick ${(user.name).replace(" (Demo)","")}!`))kickuser(user.sid)}}>
                     ⛔
                   </span>
                 )}

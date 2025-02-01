@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { encryptJson } from "../Crypoto.js";
+import { encryptJson } from "../Crypoto.jsx";
 import './Register.css';
 
 // Separate components

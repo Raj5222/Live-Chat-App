@@ -1,0 +1,17 @@
+  /* .CopyButton {
+    position: absolute;
+    transform: translateY(-50% 50%);
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 6px 8px;
+    margin: 0 6px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: none;
+  }
+  
+  .message:hover .CopyButton {
+    display: block;
+  } */

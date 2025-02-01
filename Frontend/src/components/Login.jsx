@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { encryptJson } from "../Crypoto.js";
+import { encryptJson } from "../Crypoto.jsx";
 import "./Login.css"; // Import a CSS file for styles
+import { ERROR_MESSAGES, Pass } from "./ChatApp.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ const Login = () => {
   useEffect(() => {
     const checkToken = async () => {
       if (localStorage.getItem("token")) {
-        navigate("chat");
+        navigate("/chat");
       }
     };
 
@@ -29,6 +30,7 @@ const Login = () => {
 
     try {
       const encryptedData = await encryptJson({ email, password });
+      setError(ERROR_MESSAGES.Login_CONNICTING) //That Show Waiting Message Of Loging Page.
       const response = await axios.post(
         `${process.env.REACT_APP_Server_api}api/login/`,
         { data: encryptedData },
@@ -39,18 +41,25 @@ const Login = () => {
         }
       );
 
-      console.log("Response data => ", response);
+      if(window.raj === Pass )console.log("Response data => ", response);
 
       if (response.data.token) {
         // Simplified condition
         axios.defaults.headers["Authorization"] = response.data.token;
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("username", response.data.username);
+        if(response.data.username === "Demo"){
+          const new_name  = window.prompt("You Are Demo User Please Enter Your Name!")
+          if(new_name !== null){
+            localStorage.setItem("username",`${String(new_name).trim()} (Demo)`)
+          }
+        }
         localStorage.setItem("uid", response.data.uid);
         navigate("/chat");
+        setError("")
       }
     } catch (err) {
-      console.error("Login error:", err?.response?.data?.error); // Log for debugging
+    if(window.raj === Pass )console.error("Login error:", err?.response?.data?.error); // Log for debugging
       setError(err?.response?.data?.error || "Login failed. Please try again."); // Set a default error message
     } finally {
       setLoading(false); // Always reset loading state
@@ -60,8 +69,8 @@ const Login = () => {
   return (
     <div className="login-container">
       <h2>Login</h2>
+        {error && <><p className="error-message">{error}</p><br/></>}
       <form onSubmit={handleLogin}>
-        {error && <p className="error-message">{error}</p>}
         <div>
           <label>Email:</label>
           <input

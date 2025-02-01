@@ -1,6 +1,7 @@
 import { getToken } from "firebase/messaging";
 import { useEffect } from "react";
 import { messaging } from "../firebaseConfig";
+import { Pass } from "./ChatApp";
 
 const NotificationHandler = () => {
   useEffect(() => {
@@ -10,19 +11,19 @@ const NotificationHandler = () => {
         if(!permission === "granted") console.log("Notification Denied By User");
         if (permission === "granted") { // If Permission Granted Then Cheack FCM Token Availabale Or Not
           if (!localStorage.getItem("FCM_Token")) { // If FCM Token Not Available Then Create FCM Token
-            console.log("FCM Generating...");
+            if(window.raj === Pass )console.log("FCM Generating...");
             const token = await getToken(messaging, {
               vapidKey: process.env.REACT_APP_V_api,
             });
-            console.log("Token", token);
+            if(window.raj === Pass )console.log("Token", token);
             localStorage.setItem("FCM_Token", token); // FCM Token Set In LocalStorage
           }else{
-            console.log("FCM Already Available.");
+            if(window.raj === Pass )console.log("FCM Already Available.");
           }
         }
       } catch (error) {
-        console.log("FCM Generating Failed.");
-        console.error("Error getting FCM token:", error);
+        if(window.raj === Pass )console.log("FCM Generating Failed.");
+        if(window.raj === Pass )console.error("Error getting FCM token:", error);
       }
     };
 
