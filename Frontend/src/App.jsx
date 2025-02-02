@@ -20,9 +20,8 @@ function App() {
        if(window.raj === Pass ) console.log("Service Worker registration failed:", error);
       });
   }
-  
-  fetch(process.env.REACT_APP_Socket_api).then((x)=>{if(window.raj===Pass)console.log("Spcket APi Called => ",x)})
-  fetch(process.env.REACT_APP_Server_api).then((x)=>{if(window.raj===Pass)console.log("Server APi Called => ",x)})
+    fetch(process.env.REACT_APP_Socket_api).then((x)=>{if(window.raj===Pass)console.log("Spcket APi Called => ",x)})
+    fetch(process.env.REACT_APP_Server_api).then((x)=>{if(window.raj===Pass)console.log("Server APi Called => ",x)})
   return (
     <>
     <NotificationHandler />

@@ -44,6 +44,83 @@ body {
   background-color: #457b9d;
   opacity: 1;
 }
+.typing-Indicat-box{
+  max-width: 900px or 90vw;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  position: absolute;
+}
+.typing-Indicat{
+  /* display: flex;
+  justify-content: space-between; */
+  /* width: 100%; */
+  /* top: 14.5%; */
+  /* width: max-content; */
+  /* left: 10%; */
+  /* max-width: 900px; */
+  position: fixed;
+  padding: 5px 10px;
+  margin-top: 27px;
+  margin-left: -6px;
+  opacity: 0.6;
+  background-color: #457b9d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+
+.mention-list {
+  position: fixed;
+  /* top: 100%; position below the input */
+  bottom: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%; /* same width as the input */
+  max-height: 150px; /* set a maximum height */
+  max-width: 90dvw;
+  overflow-y: auto; /* allow vertical scrolling */
+  padding: 5px;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  animation: popup 0.5s ease-out forwards; /* animation effect */
+}
+
+@keyframes popup {
+  0% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.mention-item {
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.mention-item:hover {
+  background-color: #457b9d;
+  color: #fff;
+}
+
+#all-selected-message {
+  color: #c20909 !important; 
+}
+
+.typing-Indicat:hover {
+  background-color: #457b9d;
+  opacity: 1;
+}
 
 .CopyButton {
     padding: 4px 10px;

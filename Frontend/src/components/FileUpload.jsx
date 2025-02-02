@@ -89,6 +89,7 @@ const FileUpload = ({ payload, fileInputRef, filesended }) => {
         type="file"
         ref={fileInputRef}
         className="file-input"
+        multiple
         style={{ display: "none" }}
         onChange={handleFileChange} // onChange instead of onInput
       />

@@ -2,11 +2,11 @@
 import React, { useEffect, useRef } from "react";
 import "./Modal.css"; 
 
-const Modal = ({ isOpen, onClose, userlist, kickuser, admin, current_sid }) => {
+const Modal = ({isOpen,userlist, onClose, kickuser, admin, current_sid }) => {
   const modalRef = useRef(null);
+  
   useEffect(() => {
     if (!isOpen) return;
-
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         onClose();
