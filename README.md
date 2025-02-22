@@ -7,8 +7,9 @@
 ****This chat app is built with many features.****
 >You can see the list of users currently present in each room. </br>
 >>You can also see the list of all active rooms before joining. </br>
->>>Also, the admin has the ability to remove users from an existing room. </br>
->>>>You also get a notification when someone joins an existing room.</br>
+>>>You can also Send Private Message In Group Chat. </br>
+>>>>Also, the admin has the ability to remove users from an existing room. </br>
+>>>>>You also get a notification when someone joins an existing room.</br>
 <br/>
 <br/>
 

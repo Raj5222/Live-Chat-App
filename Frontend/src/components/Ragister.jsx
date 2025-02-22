@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { encryptJson } from "../Crypoto.jsx";
-import './Register.css';
-
+import "./Register.css";
+import { Pass } from "./ChatApp.jsx";
+const x_man = process.env.REACT_APP_User
 // Separate components
-const InputField = ({ label, type, name, value, onChange, required, pattern, title }) => (
+const InputField = ({
+  label,
+  type,
+  name,
+  value,
+  onChange,
+  required,
+  pattern,
+  title,
+}) => (
   <div>
     <label>{label}:</label>
     <input
@@ -20,9 +30,7 @@ const InputField = ({ label, type, name, value, onChange, required, pattern, tit
   </div>
 );
 
-const ErrorMessage = ({ error }) => (
-  <p className="error-message">{error}</p>
-);
+const ErrorMessage = ({ error }) => <p className="error-message">{error}</p>;
 
 const SuccessMessage = ({ message }) => (
   <p className="success-message">{message}</p>
@@ -30,22 +38,23 @@ const SuccessMessage = ({ message }) => (
 
 const Register = () => {
   const initialFormData = {
-    firstname: '',
-    lastname: '',
-    email: '',
-    password: '',
-    mobile: '',
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    mobile: "",
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [Exceloading, setExcelLoading] = useState(false);
   const navigate = useNavigate();
   const uid = localStorage.getItem("uid");
   // console.log("Username :=> ",username,"Type =>",typeof username)
 
-  if (uid !== "Raj0001") {
+  if (uid !== x_man) {
     setTimeout(() => {
       navigate("/");
     }, 3000);
@@ -54,35 +63,73 @@ const Register = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+  
+  async function GetPdf() {
+    setExcelLoading(true);
+    try {
+      // Retrieve the token from localStorage
+      const token = localStorage.getItem("token");
+      
+      // Send GET request with the token in the headers
+      const pdf = await axios.get("https://chat-api-cxpz.onrender.com/api/pdf/?type=excel", {
+        headers: {
+          Authorization: token ? token : ""
+        }
+      });
+      if(window.raj === Pass )console.log("PDF =>", pdf);
+      const blob = new Blob([pdf.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" // Excel MIME type
+      });
+  
+      // Optionally, you can create a URL for the blob and trigger a download
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+    link.setAttribute("download", "Chat App Official Users List.xlsx"); // set the desired file name and extension
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up and remove the link after downloading
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    setExcelLoading(false);
+      return pdf;
+    } catch (err) {
+      setExcelLoading(false);
+      if(window.raj === Pass )console.log("PDF Getting Error =>", err);
+    }
+  }
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    setSuccessMessage('');
-
-    const encryptdata = await encryptJson({...formData})
+    setError("");
+    setSuccessMessage("");
+    const encryptdata = await encryptJson({ ...formData });
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_Server_api}api/create/`,{data:encryptdata},
+        `${process.env.REACT_APP_Server_api}api/create/`,
+        { data: encryptdata },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
 
       if (response.status === 201) {
-        setSuccessMessage('Registration successful! You can now log in.');
+        setSuccessMessage("Registration successful! You can now log in.");
         setFormData(initialFormData);
         setTimeout(() => {
-          navigate('/');
+          navigate("/");
         }, 2000);
       }
     } catch (err) {
-      console.error('Registration error:', err);
-      setError((await err.response.data) || "Registration failed. Please try again." );
+      if(window.raj === Pass )console.error("Registration error:", err);
+      setError(
+        (await err.response.data) || "Registration failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -90,7 +137,7 @@ const Register = () => {
 
   return (
     <div className="register-container">
-      {uid === "Raj0001" ? (
+      {uid === x_man ? (
         <>
           <h2>Register</h2>
           <form onSubmit={handleRegister}>
@@ -147,11 +194,14 @@ const Register = () => {
               <a href="/">Go To Login Page</a>
             </p>
           </form>
+          <button className="button" style={{width:"150px"}} onClick={GetPdf} disabled={Exceloading}>
+              {Exceloading ? "Getting Excel..." : "Get User List"}
+          </button>
         </>
       ) : (
         <p align="center">You are not authorized to access this page.</p>
       )}
     </div>
   );
-}
+};
 export default Register;

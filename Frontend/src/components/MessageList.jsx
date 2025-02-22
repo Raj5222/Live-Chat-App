@@ -37,9 +37,10 @@ const MessageList = React.memo(
                 : ""
             }`}
           >
+            {(payload.message && payload.username && !payload.href) && (<button className={payload.sid === current_sid?"CopyButton Selfcopybtn":"CopyButton"} onClick={() => copyToClipboard(payload.message,index)}> {buttonStates[index] ? 'Copied!' : 'Copy Content'}</button>)}
             {payload.sid !== current_sid && (
               <>
-                <strong>{payload.username}</strong>
+                <strong>{payload.username}{payload.sid_array?'🔒':""}</strong>
                 <span className="timestamp">[{payload.timestamp}]</span>:
               </>
             )}
@@ -50,7 +51,6 @@ const MessageList = React.memo(
                   dangerouslySetInnerHTML={{ __html: payload.message }}
                 />
               ) : payload.message}
-              {(payload.message && payload.username && !payload.href) && (<button className="CopyButton" onClick={() => copyToClipboard(payload.message,index)}> {buttonStates[index] ? 'Copied!' : 'Copy Content'}</button>)}
             </>
             {payload.file && (
               <div className="file-attachment">
@@ -59,9 +59,8 @@ const MessageList = React.memo(
             )}
             {payload.sid === current_sid && (
               <>
-              
                 <span className="timestamp">:[{payload.timestamp}]:</span>
-                <strong> Self</strong>
+                <strong>{payload.sid_array?'🔒':""} Self</strong>
               </>
             )}
           </div>

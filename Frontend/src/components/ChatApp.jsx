@@ -72,6 +72,7 @@ export const ChatApp = () => {
   const [isConnected, setConnected] = useState(true);
   const [current_sid, setSID] = useState();
   const [isTyping, setTypingUser] = useState([]);
+  // const [isChecked, setIsChecked] = useState(false);
   const [isPrivate, setPrivatePOP] = useState(false); // Controls mention dropdown visibility
   const messageRef = useRef();
   const fileInputRef = useRef();
@@ -81,6 +82,10 @@ export const ChatApp = () => {
   let socketRef = useRef();
   const super_id = useRef({});
 
+
+  // const handleChange = (event) => {
+  //   setIsChecked(event.target.checked);
+  // };
   // Before unload event: leave the room
   if (room) {
     window.addEventListener("beforeunload", async (event) => {
@@ -222,6 +227,9 @@ export const ChatApp = () => {
               chunks[payload.sid].data,
               payload.Blob_Type
             );
+          //   if(isChecked && payload.sid_array && payload.sid !== super_id.current.id){
+          //   window.alert(`${payload.username} Sended You Private Message In Room: ${room}.`)
+          // }
             setChat((prevChat) => {
               if (payload.users) {
                 setUserlist(payload.users);
@@ -245,6 +253,9 @@ export const ChatApp = () => {
           }
         }
       } else {
+          // if(isChecked && payload.sid_array && payload.sid !== super_id.current.id){
+          //   window.alert(`${payload.username} Sended You Private Message In Room: ${room}.`)
+          // }
         setChat((prevChat) => {
           if (payload.users) {
             setUserlist(payload.users);
@@ -269,7 +280,7 @@ export const ChatApp = () => {
         setConnected(!socketRef.current.connected);
       }
     },
-    [super_id]
+    [super_id/*,room,isChecked*/]
   );
 
   const toggleModal = () => {
@@ -323,6 +334,19 @@ export const ChatApp = () => {
   } catch (error) {
     if (window.raj === Pass) console.error("Socket Fail => ", error);
   }
+  const Logout = () => {
+    let text = `Hay ${username.replace(
+      " (Demo)",
+      ""
+    )} Do You Really Want To Logout!`;
+    const conf = window.confirm(text)
+    if (conf) {
+      socketRef.current?.emit("leaveRoom", { username, room, FCM_Token, uid });
+      chunks = {};
+      localStorage.clear();
+      navigate("/");
+    }
+  };
 
   const kickUser = (targetSocketId) => {
     socketRef.current.emit("kickUser", targetSocketId, room);
@@ -364,19 +388,6 @@ export const ChatApp = () => {
     }
   };
 
-  const Logout = () => {
-    let text = `Hay ${username.replace(
-      " (Demo)",
-      ""
-    )} Do You Really Want To Logout!`;
-    if (window.confirm(text)) {
-      chunks = {};
-      localStorage.clear();
-      navigate("/");
-      socketRef.current.emit("leaveRoom", { username, room, FCM_Token, uid });
-    }
-  };
-
   const sendChat = async (e) => {
     e.preventDefault();
     let limit = 5;
@@ -412,9 +423,9 @@ export const ChatApp = () => {
       data.sid_array = privat_M_user;
     }
     if (filelength) {
-      Array.from(fileInputRef.current.files).forEach((file) => {
-        fileSend(file);
-      });
+      Array.from(fileInputRef.current.files).forEach((file)=>fileSend(file)); // Sending Multipale File Here.
+      messageRef.current.value = "";
+      // fileInputRef.current.value = "";
     }
     function fileSend(file) {
       if (file.size > MAX_FILE_SIZE) {
@@ -513,7 +524,6 @@ export const ChatApp = () => {
     listStyle: "none",
     padding: "5px",
     marginTop: "2px",
-    zIndex: 1000,
   };
 
   return (
@@ -586,6 +596,15 @@ export const ChatApp = () => {
               backgroundColor: isConnected ? "#f0f0f0" : null,
             }}
           >
+            {/* <label class="checkbox-inline" for="myCheckbox">
+            <input 
+              type="checkbox"
+              id="myCheckbox"
+              checked={isChecked}
+              onChange={handleChange}
+              title="Private Message Alert Required."/>
+              Private Message Alert Required.
+            </label> */}
             <span className="room">
               User:{" "}
               <span className="room-id">
@@ -683,7 +702,7 @@ export const ChatApp = () => {
                   id="all-selected-message"
                   style={dropdownStyle}
                 >
-                  <li>All users selected</li>
+                  <li>{isUserlist.length>1 ? "All Users Selected.":"Users Not Available."}</li>
                 </ul>
               ))}
 
